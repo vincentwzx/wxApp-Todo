@@ -1,0 +1,14 @@
+  <!--<view class="item">
+      <icon class="checkbox" id ="{{item.todoid}}" type="{{item.completed?'success_circle':'circle'}}" bindtap="toggleCheck"></icon>
+      <text class="{{item.completed?'completed':'name'}}">{{item.todoContent}}</text>
+      <icon class="remove" id ="{{item.todoid}}" type="clear" size="16" bindtap="deleteTodo"></icon>
+  </view>-->
+
+<view class="container">
+  <view class="title">
+    <icon class="checkbox" type="{{task.completed?'success_circle':'circle'}}" bindtap="toggleCheck"></icon>
+    <view>{{task_id}}.{{task.taskContent}}.{{task.completed}}</view>
+    <input placeholder="点击输入备忘" bindinput="getNote" value="{{task.note}}"/>
+  </view>
+</view>
+

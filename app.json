@@ -1,0 +1,12 @@
+{
+  "pages":[
+    "pages/list/list",
+    "pages/task/task"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "TODOS",
+    "navigationBarTextStyle":"black"
+  }
+}

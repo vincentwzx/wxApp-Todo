@@ -1,0 +1,76 @@
+.newTask {
+  display: flex;
+  align-items: center;
+  border: 1rpx solid #e0e0e0;
+  border-radius: 10rpx;
+  box-shadow: 0 0 10rpx #ccc;
+  margin-top: 20rpx;
+  padding: 20rpx;
+}
+
+.newTask .plus {
+  width: 41rpx;
+  height: 41rpx;
+  margin-right: 20rpx;
+}
+
+.newTask .new-task {
+  flex: 1;
+  font-size: 28rpx;
+}
+
+.tasks {
+  border: 1rpx solid #e0e0e0;
+  border-radius: 10rpx;
+  box-shadow: 0 0 10rpx #ccc;
+}
+
+.tasks .item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  border-bottom: 1rpx solid #e0e0e0;
+}
+
+.tasks .item:last-child {
+  border-bottom: 0;
+}
+
+.tasks .item .name {
+  flex: 1;
+  font-size: 30rpx;
+  color: #444;
+}
+
+.tasks .item .completed {
+  flex: 1;
+  font-size: 30rpx;
+  text-decoration: line-through;
+  color: #888;
+}
+
+.tasks .item .checkbox {
+  margin-right: 10rpx;
+}
+
+.tasks .item .remove {
+  cursor: pointer;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  margin: 30rpx 0;
+  padding: 0 10rpx;
+  font-size: 26rpx;
+  color: #777;
+}
+
+.footer .btn {
+  cursor: pointer;
+}
+
+.buttomDone {
+  bottom:100rpx;
+
+}
