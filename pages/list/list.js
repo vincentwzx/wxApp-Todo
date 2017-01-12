@@ -28,15 +28,19 @@ Page({
          focus:true,
          input:'',
          task_id:task_id+1,
-     })
+     });
+     wx.setStorage({
+         key: 'tasks',
+         data: this.data.tasks,
+       })
+
  },
 
   deleteTask(e){
           var id = e.currentTarget.id;
-          let {tasks} = app.globalData;
-          tasks = tasks.filter(x => Number(id) !== x.task_id);
+          app.globalData.tasks = app.globalData.tasks.filter(x => Number(id) !== x.task_id);
           this.setData({
-              tasks,
+              tasks:app.globalData.tasks,
           });
           console.log(this.data);
           console.log(app.globalData);
@@ -54,16 +58,6 @@ Page({
           console.log(app.globalData);
     },
 
-    //  deleteTask(e){
-    //       var id = e.currentTarget.id;
-    //       app.globalData.tasks = app.globalData.tasks.filter(x => Number(id) !== x.task_id);
-    //       this.setData({
-    //           tasks:app.globalData.tasks
-    //       });
-    //       console.log(this.data);
-    //       console.log(app.globalData);
-    //  },
-
      openTaskDetail(e){
          var task_id = e.currentTarget.id;
          console.log(e.currentTarget.id)
@@ -76,17 +70,17 @@ Page({
     return {
       title: 'Keep Calm',
       desc: 'And get SHIT done',
-      path: '/pages/list/list'
+      path: '/pages/list/list?'
     }
   },
-  
 
-//   onShow: function() {
-//       var {tasks} = app.globalData;
-//     this.setData({
-//         tasks,
-//     })
-//   }
+  onShow: function() {
+      var {tasks} = app.globalData;
+    this.setData({
+        tasks,
+    //从返回list 页面时重新渲染
+    })
+  }
 
 
 })

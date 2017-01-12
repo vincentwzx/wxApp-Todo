@@ -5,10 +5,12 @@
   </view>-->
 
 <view class="container">
-  <view class="title">
+  <view class="shadowBox">
+  <view class="header">
     <icon class="checkbox" type="{{task.completed?'success_circle':'circle'}}" bindtap="toggleCheck"></icon>
-    <view>{{task_id}}.{{task.taskContent}}.{{task.completed}}</view>
-    <input placeholder="点击输入备忘" bindinput="getNote" value="{{task.note}}"/>
+    <view class="{{task.completed?'completed':'title'}}">{{task.taskContent}}</view>
+    </view>
+    <textarea class="{{focusNote?'focusNote':'note'}}" placeholder="添加备忘" bindinput="getNote" value="{{task.note}}" bindfocus="focusOnNote" bindblur="focusOffNote"/>
   </view>
 </view>
 

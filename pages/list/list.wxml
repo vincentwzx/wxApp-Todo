@@ -1,8 +1,8 @@
 <view class="container">
-  <view class="tasks">
+  <view class="shadowBox" wx:if="{{tasks.length>0}}">
     <view class="item" wx:for= "{{tasks}}" bindtap="openTaskDetail" id ="{{item.task_id}}">
       <icon class="checkbox" type="{{item.completed?'success_circle':'circle'}}" id ="{{item.task_id}}" catchtap="toggleCheck"></icon>
-      <text id ="{{item.task_id}}" class="{{item.completed?'completed':'name'}}">{{item.task_id}}.{{item.taskContent}}</text>
+      <text id ="{{item.task_id}}" class="{{item.completed?'completed':'name'}}">{{item.taskContent}}</text>
       <icon class="remove" id ="{{item.task_id}}" type="clear" size="16" catchtap="deleteTask"></icon>
     </view>
   </view>
@@ -11,10 +11,5 @@
     <image class="plus" src="../../images/plus.png"/>
     <input class="new-task" value="{{input}}" placeholder="New task" bindinput="getInput" bindconfirm="saveNewTask" focus="{{focus}}"/>
   </view>
-  
-  <!--<view class="footer">
-    <text class="btn" bindTap="onShareAppMessage">Share this page</text>
-    <text>0 item left</text>
-    <text class="btn" bindtap="cancelDel">Cancel Delete</text>
-  </view>-->
+
 </view>

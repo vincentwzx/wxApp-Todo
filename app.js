@@ -26,7 +26,7 @@ App({
   },
   globalData:{
     userInfo:null,
-    tasks:[],
+    tasks:wx.getStorageSync('tasks')||[],
     test:'',
   },
 

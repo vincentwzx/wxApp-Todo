@@ -19,41 +19,35 @@
   font-size: 28rpx;
 }
 
-.tasks {
-  border: 1rpx solid #e0e0e0;
-  border-radius: 10rpx;
-  box-shadow: 0 0 10rpx #ccc;
-}
-
-.tasks .item {
+.shadowBox .item {
   display: flex;
   align-items: center;
   padding: 20rpx;
   border-bottom: 1rpx solid #e0e0e0;
 }
 
-.tasks .item:last-child {
+.shadowBox .item:last-child {
   border-bottom: 0;
 }
 
-.tasks .item .name {
+.shadowBox .item .name {
   flex: 1;
   font-size: 30rpx;
   color: #444;
 }
 
-.tasks .item .completed {
+.shadowBox .item .completed {
   flex: 1;
   font-size: 30rpx;
   text-decoration: line-through;
   color: #888;
 }
 
-.tasks .item .checkbox {
+.shadowBox .item .checkbox {
   margin-right: 10rpx;
 }
 
-.tasks .item .remove {
+.shadowBox .item .remove {
   cursor: pointer;
 }
 

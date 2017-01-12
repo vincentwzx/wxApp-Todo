@@ -10,6 +10,7 @@ Page({
     }) 
   },
     data:{
+      focusNote:true,
     },
 
       toggleCheck(e){
@@ -32,6 +33,22 @@ Page({
             tasks:app.changeTask(task),
             task:app.getTask(task_id)
         })
+    },
+
+    focusOnNote(){
+      console.log(this.data.focusNote);
+      this.setData({
+        focusNote:true,
+      });
+      console.log(this.data.focusNote);
+    },
+
+    focusOffNote(){
+      console.log(this.data.focusNote);
+      this.setData({
+        focusNote:false,
+      });
+      console.log(this.data.focusNote);
     }
 
 
