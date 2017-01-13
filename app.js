@@ -26,25 +26,28 @@ App({
   },
   globalData:{
     userInfo:null,
-    tasks:wx.getStorageSync('tasks')||[],
-    test:'',
   },
 
   getTask(task_id){
-      let {tasks} = this.globalData;
+      let tasks = wx.getStorageSync('tasks')||[];
       const task =  tasks.find(x => Number(task_id) === x.task_id);
       return task;
       },
 
   changeTask(task){
-        let {tasks} = this.globalData;
+        let tasks = wx.getStorageSync('tasks')||[];
         tasks = tasks.map(x => {
              if (Number(task.task_id) === x.task_id) {
                  x = task;
              }
              return x;
          });
+         wx.setStorage({
+         key: 'tasks',
+         data: tasks,
+       });
          return tasks;
-    }
+
+    },
       
  })

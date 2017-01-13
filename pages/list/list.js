@@ -3,7 +3,9 @@ Page({
     data: {
         input:'',
         focus:true,
-        task_id:0,
+        task_id:wx.getStorageSync('task_id')||0,
+        tasks:wx.getStorageSync('tasks')||[],
+        
     },
 
      getInput(e){
@@ -14,7 +16,8 @@ Page({
 
     saveNewTask(e){
         let {input,task_id} = this.data;
-        let {tasks} = app.globalData;
+        let tasks = wx.getStorageSync('tasks')||[];
+        // 为什么这里如果写成 let{tasks} = this.data; 会报错错？说push 不是 function 
         const newTask = {
             task_id:task_id,
             taskContent:this.data.input,
@@ -29,21 +32,30 @@ Page({
          input:'',
          task_id:task_id+1,
      });
+     this.syncData();
+
+ },
+
+ syncData(){
      wx.setStorage({
          key: 'tasks',
          data: this.data.tasks,
-       })
+       });
 
+     wx.setStorage({
+         key: 'task_id',
+         data: this.data.task_id,
+       })
  },
 
   deleteTask(e){
           var id = e.currentTarget.id;
-          app.globalData.tasks = app.globalData.tasks.filter(x => Number(id) !== x.task_id);
+          let tasks = wx.getStorageSync('tasks');
+          tasks = tasks.filter(x => Number(id) !== x.task_id);
           this.setData({
-              tasks:app.globalData.tasks,
+              tasks,
           });
-          console.log(this.data);
-          console.log(app.globalData);
+          this.syncData();
      },
 
 
@@ -54,8 +66,6 @@ Page({
         this.setData({
             tasks:app.changeTask(task)
         });
-        console.log(this.data);
-          console.log(app.globalData);
     },
 
      openTaskDetail(e){
@@ -70,14 +80,13 @@ Page({
     return {
       title: 'Keep Calm',
       desc: 'And get SHIT done',
-      path: '/pages/list/list?'
+      path: '/pages/list/list'
     }
   },
 
   onShow: function() {
-      var {tasks} = app.globalData;
     this.setData({
-        tasks,
+        tasks:wx.getStorageSync('tasks'),
     //从返回list 页面时重新渲染
     })
   }

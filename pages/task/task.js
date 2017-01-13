@@ -14,24 +14,22 @@ Page({
     },
 
       toggleCheck(e){
-        let {task_id} = this.data;
-        let task = app.getTask(task_id);
-        //为什么不能把上面这句删掉，直接使用 this.data 中的 task 来赋值给函数中的 tasktask?
+        let {task_id,task} = this.data;
+        //为什么不能把上面这句删掉，直接使用 this.data 中的 task 来赋值给函数中的 task?
         task.completed = !task.completed;
         this.setData({
             tasks:app.changeTask(task),
-            task:app.getTask(task_id)
+            task,
         })
     },
 
      getNote(e){
 
-      let {task_id} = this.data;
-      let task = app.getTask(task_id);
+      let {task,task_id} = this.data;
       task.note = e.detail.value;
       this.setData({
             tasks:app.changeTask(task),
-            task:app.getTask(task_id)
+            task,
         })
     },
 
