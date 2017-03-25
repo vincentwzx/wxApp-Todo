@@ -8,7 +8,8 @@
   <view class="shadowBox">
   <view class="header">
     <icon class="checkbox" type="{{task.completed?'success_circle':'circle'}}" bindtap="toggleCheck"></icon>
-    <view class="{{task.completed?'completed':'title'}}">{{task.taskContent}}</view>
+    <!--<view class="{{task.completed?'completed':'title'}}">{{task.taskContent}}</view>-->
+    <input value="{{task.taskContent}}" bindinput="changeTaskContent" />
     </view>
     <textarea class="{{focusNote?'focusNote':'note'}}" placeholder="添加备忘" bindinput="getNote" value="{{task.note}}" bindfocus="focusOnNote" bindblur="focusOffNote"/>
   </view>

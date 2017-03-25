@@ -20,7 +20,7 @@
 }
 
 .shadowBox .item {
-  display: flex;
+  /*display: flex;*/
   align-items: center;
   padding: 20rpx;
   border-bottom: 1rpx solid #e0e0e0;
@@ -62,9 +62,4 @@
 
 .footer .btn {
   cursor: pointer;
-}
-
-.buttomDone {
-  bottom:100rpx;
-
 }

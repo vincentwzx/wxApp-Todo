@@ -1,6 +1,6 @@
 <view class="container">
   <view class="shadowBox" wx:if="{{tasks.length>0}}">
-    <view class="item" wx:for= "{{tasks}}" bindtap="openTaskDetail" id ="{{item.task_id}}">
+    <view  class="item" wx:for= "{{tasks}}" bindtap="openTaskDetail" id ="{{item.task_id}}">
       <icon class="checkbox" type="{{item.completed?'success_circle':'circle'}}" id ="{{item.task_id}}" catchtap="toggleCheck"></icon>
       <text id ="{{item.task_id}}" class="{{item.completed?'completed':'name'}}">{{item.taskContent}}</text>
       <icon class="remove" id ="{{item.task_id}}" type="clear" size="16" catchtap="deleteTask"></icon>

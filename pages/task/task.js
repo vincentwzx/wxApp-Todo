@@ -15,13 +15,23 @@ Page({
 
       toggleCheck(e){
         let {task_id,task} = this.data;
-        //为什么不能把上面这句删掉，直接使用 this.data 中的 task 来赋值给函数中的 task?
         task.completed = !task.completed;
         this.setData({
             tasks:app.changeTask(task),
             task,
         })
     },
+
+    changeTaskContent(e){
+        let input = e.detail.value;
+        let {task} = this.data;
+        task.taskContent = input;
+        this.setData({
+            tasks:app.changeTask(task),
+            task,
+           })
+
+     },
 
      getNote(e){
 
@@ -48,13 +58,5 @@ Page({
       });
       console.log(this.data.focusNote);
     }
-
-
-
-
-
-
-
-
 
 })
