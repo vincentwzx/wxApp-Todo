@@ -5,6 +5,28 @@ Page({
         focus:true,
         task_id:wx.getStorageSync('task_id')||0,
         tasks:wx.getStorageSync('tasks')||[],
+            // {
+            // task_id:0,
+            // taskContent:"欢迎使用 V 清单",
+            // completed:false,
+            // note:'',
+            //  },{
+            // task_id:1,
+            // taskContent:"点击左边，完成这条任务",
+            // completed:false,
+            // note:'',
+            //  },{
+            // task_id:2,
+            // taskContent:"点击右边叉删除",
+            // completed:false,
+            // note:'',
+            //  },
+            //  {
+            // task_id:4,
+            // taskContent:"点击下方输入框，开始创建你自己的待办事项清单＝）",
+            // completed:false,
+            // note:'',
+            //  }]
         
     },
 
@@ -83,10 +105,11 @@ Page({
       path: '/pages/list/list'
     }
   },
+  
 
   onShow: function() {
     this.setData({
-        tasks:wx.getStorageSync('tasks'),
+        // tasks:wx.getStorageSync('tasks'),
     //从返回list 页面时重新渲染
     })
   }

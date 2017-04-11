@@ -1,10 +1,11 @@
 .newTask {
   display: flex;
   align-items: center;
+  position: fixed;
+  width: 100%;
+  bottom: 0rpx;
+  background-color: white;
   border: 1rpx solid #e0e0e0;
-  border-radius: 10rpx;
-  box-shadow: 0 0 10rpx #ccc;
-  margin-top: 20rpx;
   padding: 20rpx;
 }
 
@@ -20,10 +21,11 @@
 }
 
 .shadowBox .item {
-  /*display: flex;*/
+  display: flex;
   align-items: center;
-  padding: 20rpx;
+  padding: 30rpx;
   border-bottom: 1rpx solid #e0e0e0;
+  z-index: 100;  
 }
 
 .shadowBox .item:last-child {
@@ -34,6 +36,12 @@
   flex: 1;
   font-size: 30rpx;
   color: #444;
+  margin-left:15rpx;
+}
+
+.checkbox {
+  width: 40rpx;
+  height: 40rpx;
 }
 
 .shadowBox .item .completed {
@@ -41,6 +49,7 @@
   font-size: 30rpx;
   text-decoration: line-through;
   color: #888;
+   margin-left:15rpx;
 }
 
 .shadowBox .item .checkbox {
@@ -48,18 +57,5 @@
 }
 
 .shadowBox .item .remove {
-  cursor: pointer;
-}
-
-.footer {
-  display: flex;
-  justify-content: space-between;
-  margin: 30rpx 0;
-  padding: 0 10rpx;
-  font-size: 26rpx;
-  color: #777;
-}
-
-.footer .btn {
   cursor: pointer;
 }
