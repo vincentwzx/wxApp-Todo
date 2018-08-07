@@ -1,15 +1,29 @@
-<view class="container">
-  <view class="shadowBox" wx:if="{{tasks.length>0}}">
-    <view class="item" wx:for= "{{tasks}}" bindtap="openTaskDetail" id ="{{item.task_id}}">
-      <icon class="checkbox" type="{{item.completed?'success_circle':'circle'}}" id ="{{item.task_id}}" catchtap="toggleCheck"></icon>
-      <text id ="{{item.task_id}}" class="{{item.completed?'completed':'name'}}">{{item.taskContent}}</text>
-      <icon class="remove" id ="{{item.task_id}}" type="clear" size="16" catchtap="deleteTask"></icon>
-    </view>
-  </view>
-
-  <view class="newTask">
-    <image class="plus" src="../../images/plus.png"/>
-    <input class="new-task" value="{{input}}" placeholder="New task" bindinput="getInput" bindconfirm="saveNewTask" focus="{{focus}}"/>
-  </view>
-
+<view class="page-wrap">
+    <scroll-view class="container" scroll-y="true" scroll-top="{{scrollHeight}} " scroll-with-animation="true" upper-threshold="0" bindscrolltoupper="scrollToTop" bindscroll="bindscroll" style="height:{{windowHeight}}px;">
+        <view class="list-wrap">
+            <view class="newTask list-item">
+                <image class="plus-icon" src="../../images/plus.png"/>
+                <input class="new-task-title" value="{{input}}" placeholder="准备做什么？" confirm-hold="true" bindinput="getInput" bindconfirm="saveNewTask" confirm-type="next" focus="{{focus}}" bindblur="blurSet"/>
+            </view>
+            <view class="list-item" wx:for= "{{tasks}}" bindtap="openTaskDetail" hover-class="list-item-hover" wx:if="{{!item.state}}" id ="{{item.id}}">
+                <view class="checkbox-wrap">
+                     <image class="checkbox" src="{{item.state?'../../images/done.png':'../../images/undone.png'}}" id ="{{item.id}}" catchtap="toggleCheck"/>
+                </view>
+                <text id ="{{item.id}}" class="title {{item.state?'done':'undone'}}">{{item.title}}</text>
+            </view>
+            <view class="toogle-done" wx:if="{{hasDoneTask}}">
+                <view class="text" bindtap="toggleDone">{{showDoneTask?"隐藏已完成任务":"显示已完成任务"}}</view>
+            </view>
+            <view wx:if="{{showDoneTask}}">
+                <view class="list-item" wx:for= "{{tasks}}" bindtap="openTaskDetail" hover-class="list-item-hover" wx:if="{{item.state}}" id ="{{item.id}}">
+                    <view class="checkbox-wrap">
+                        <image class="checkbox" src="{{item.state?'../../images/done.png':'../../images/undone.png'}}" id ="{{item.id}}" catchtap="toggleCheck"/>
+                    </view>
+                    <text id ="{{item.id}}" class="title {{item.state?'done':'undone'}}">{{item.title}}</text>
+                    <icon class="remove" id ="{{item.id}}" type="clear" size="20" catchtap="deleteTask"></icon>
+                </view>
+            </view>
+        </view>
+    </scroll-view>
+    <image class="FAB" wx:if="{{!focus}}"  src="../../images/FAB.png" catchtap="addTask"></image>
 </view>

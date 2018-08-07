@@ -2,59 +2,57 @@ var app = getApp()
 Page({
 
   onLoad: function(options) {  
-    let task_id = options.task_id;
-    let task = app.getTask(task_id);
+    let id = options.id;
+    let task = app.getTask(id);
     this.setData({    
-      task_id,
+      id,
       task
     }) 
   },
     data:{
-      focusNote:true,
+      focusContent:false,
     },
 
       toggleCheck(e){
-        let {task_id,task} = this.data;
-        //为什么不能把上面这句删掉，直接使用 this.data 中的 task 来赋值给函数中的 task?
-        task.completed = !task.completed;
+        let {id,task} = this.data;
+        task.state = !task.state;
         this.setData({
             tasks:app.changeTask(task),
             task,
         })
     },
 
-     getNote(e){
+    changeTitle(e){
+        let input = e.detail.value;
+        let {task} = this.data;
+        task.title = input;
+        this.setData({
+            tasks:app.changeTask(task),
+            task,
+           })
 
-      let {task,task_id} = this.data;
-      task.note = e.detail.value;
+     },
+
+     getContent(e){
+
+      let {task,id} = this.data;
+      task.content = e.detail.value;
       this.setData({
             tasks:app.changeTask(task),
             task,
         })
     },
 
-    focusOnNote(){
-      console.log(this.data.focusNote);
+    focusOnContent(){
       this.setData({
-        focusNote:true,
+        focusContent:true,
       });
-      console.log(this.data.focusNote);
     },
 
-    focusOffNote(){
-      console.log(this.data.focusNote);
+    focusOffContent(){
       this.setData({
-        focusNote:false,
+        focusContent:false,
       });
-      console.log(this.data.focusNote);
     }
-
-
-
-
-
-
-
-
 
 })

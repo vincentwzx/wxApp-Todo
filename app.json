@@ -5,8 +5,8 @@
   ],
   "window":{
     "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "V清单",
-    "navigationBarTextStyle":"black"
+    "navigationBarBackgroundColor": "#05B8D6",
+    "navigationBarTitleText": "青果清单",
+    "navigationBarTextStyle":"white"
   }
 }
