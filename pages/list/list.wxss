@@ -1,61 +1,100 @@
+.page-wrap {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.container {
+    overflow-y:auto;
+    padding: 0rpx 10rpx 0rpx 10rpx;
+    box-sizing: border-box;
+}
+
+.list-wrap {
+  padding-bottom: 100px;
+}
+
 .newTask {
   display: flex;
   align-items: center;
-  position: fixed;
-  width: 100%;
-  bottom: 0rpx;
-  background-color: white;
-  border: 1rpx solid #e0e0e0;
-  padding: 20rpx;
 }
 
-.newTask .plus {
-  width: 41rpx;
-  height: 41rpx;
+.newTask .plus-icon {
+  width: 10mm;
+  height: 10mm;
   margin-right: 20rpx;
 }
 
-.newTask .new-task {
+.newTask .new-task-title {
   flex: 1;
-  font-size: 28rpx;
+  font-size: 15px;
 }
 
-.shadowBox .item {
+.list-item {
+  border-radius: 5px;
+  background-color: white;
   display: flex;
-  align-items: center;
-  padding: 30rpx;
-  border-bottom: 1rpx solid #e0e0e0;
-  z-index: 100;  
+  padding: 10rpx;
+  margin: 10rpx;
 }
 
-.shadowBox .item:last-child {
-  border-bottom: 0;
-}
-
-.shadowBox .item .name {
+.list-item .title {
   flex: 1;
-  font-size: 30rpx;
-  color: #444;
-  margin-left:15rpx;
+  font-size: 15px;
+  margin:10px 15rpx;
+  word-wrap:break-word;
+  width: 400rpx;
+  line-height: 20px;
 }
 
-.checkbox {
-  width: 40rpx;
-  height: 40rpx;
-}
-
-.shadowBox .item .completed {
-  flex: 1;
-  font-size: 30rpx;
-  text-decoration: line-through;
+.list-item .done {
   color: #888;
-   margin-left:15rpx;
+}
+.list-item .undone {
+  color: #444;
 }
 
-.shadowBox .item .checkbox {
+.list-item .checkbox {
   margin-right: 10rpx;
+  width: 20px;
+  height: 20px;
 }
 
-.shadowBox .item .remove {
+.list-item .remove {
   cursor: pointer;
+}
+
+.list-item-hover {
+  background-color: #F7F7F7;
+}
+
+.toogle-done {
+  margin: 30px auto;
+  background-color: #DDD;
+  padding: 10px;
+  border-radius: 10rpx;
+  width: 111px;
+
+}
+
+.toogle-done .text {
+  font-size: 13px;
+  color: white;
+  margin: 0 auto;
+  width: 91px;
+}
+
+.checkbox-wrap{
+  width:20px;
+  height:20px;
+  padding: 10px;
+}
+
+.FAB {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  width: 72px;
+  height: 72px;
 }

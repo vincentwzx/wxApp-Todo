@@ -1,33 +1,14 @@
 var app = getApp()
+
 Page({
     data: {
         input:'',
-        focus:true,
-        task_id:wx.getStorageSync('task_id')||0,
+        focus:false,
+        sort:wx.getStorageSync('sort')||0,
         tasks:wx.getStorageSync('tasks')||[],
-            // {
-            // task_id:0,
-            // taskContent:"欢迎使用 V 清单",
-            // completed:false,
-            // note:'',
-            //  },{
-            // task_id:1,
-            // taskContent:"点击左边，完成这条任务",
-            // completed:false,
-            // note:'',
-            //  },{
-            // task_id:2,
-            // taskContent:"点击右边叉删除",
-            // completed:false,
-            // note:'',
-            //  },
-            //  {
-            // task_id:4,
-            // taskContent:"点击下方输入框，开始创建你自己的待办事项清单＝）",
-            // completed:false,
-            // note:'',
-            //  }]
-        
+        scrollAtTop:true,
+        toggleDoneText:"显示已完成任务",
+        showDoneTask:false
     },
 
      getInput(e){
@@ -36,25 +17,72 @@ Page({
          });
      },
 
+     addTask(){
+         if(this.data.scrollAtTop){
+             this.setData({
+                 focus:true
+             })
+         } else{
+             this.setData({
+             scrollHeight:0,
+             addTasking:true
+             })
+         }
+     },
+
+     bindscroll(e){
+         if (e.detail.scrollTop == 0) {
+             this.setData({
+                 scrollAtTop:true
+             })
+         } else {
+             this.setData({
+                 scrollAtTop:false
+             })
+         }
+     },
+
+
+
+     scrollToTop(){
+         var addTasking = this.data.addTasking;
+         if (addTasking){
+             console.log("toTop");
+         this.setData({
+             focus:true,
+         })
+         }
+     },
+
+     blurSet(){
+         this.setData({
+             focus:false,
+             addTasking:false,
+         })
+     },
+
+
     saveNewTask(e){
-        let {input,task_id} = this.data;
+        let {input,sort} = this.data;
+        let id = sort;
         let tasks = wx.getStorageSync('tasks')||[];
-        // 为什么这里如果写成 let{tasks} = this.data; 会报错错？说push 不是 function 
         const newTask = {
-            task_id:task_id,
-            taskContent:this.data.input,
-            completed:false,
-            note:'',
+            id,
+            title:this.data.input,
+            state:false,
+            content:'',
              };
         if (input.trim().length === 0) return;
-        tasks.push(newTask);
+        tasks.unshift(newTask);
         this.setData({
          tasks,
          focus:true,
          input:'',
-         task_id:task_id+1,
+         sort:sort+1,
+         scrollHeight:0,
      });
-     this.syncData();
+
+    this.syncData();
 
  },
 
@@ -65,53 +93,95 @@ Page({
        });
 
      wx.setStorage({
-         key: 'task_id',
-         data: this.data.task_id,
+         key: 'sort',
+         data: this.data.sort,
        })
  },
 
   deleteTask(e){
           var id = e.currentTarget.id;
+          console.info(id);
           let tasks = wx.getStorageSync('tasks');
-          tasks = tasks.filter(x => Number(id) !== x.task_id);
+          console.info(tasks);
+          tasks = tasks.filter(x => Number(id) !== x.id);
+          console.log(tasks);
           this.setData({
               tasks,
           });
+          this.checkDoneTask();
           this.syncData();
      },
 
+toggleDone(){
+    var showDoneTask = this.data.showDoneTask;
+    this.setData({
+        toggleDoneText:"隐藏已完成任务",
+        showDoneTask:!showDoneTask
+    })
+},
+
+hasDone(x){
+        return x.state;
+    },
+
+checkDoneTask(){
+        var tasks = this.data.tasks;
+        var hasDoneTask = tasks.some(this.hasDone);
+        this.setData({
+            hasDoneTask,
+        })
+},
+
 
     toggleCheck(e){
+        console.log("toggle");
         var id = e.currentTarget.id;
+        console.log(id);
         let task = app.getTask(id);
-        task.completed = !task.completed;
+        task.state = !task.state;
         this.setData({
             tasks:app.changeTask(task)
         });
+        this.checkDoneTask();
+
     },
 
      openTaskDetail(e){
-         var task_id = e.currentTarget.id;
+         var id = e.currentTarget.id;
          console.log(e.currentTarget.id)
          wx.navigateTo({
-             url: '../task/task?task_id='+task_id
+             url: '../task/task?id='+id
          });
         },
 
     onShareAppMessage: function (x) {
     return {
-      title: 'Keep Calm',
-      desc: 'And get SHIT done',
+      title: '简单好用的待办事项清单',
       path: '/pages/list/list'
     }
+  },
+
+  onLoad: function() {
+    var windowHeight = 603;
+    wx.getSystemInfo({
+      success: function(res) {
+          windowHeight = res.windowHeight;
+      }
+    })
+    this.setData({
+        windowHeight,
+    })
   },
   
 
   onShow: function() {
+    this.checkDoneTask();
+   
     this.setData({
-        // tasks:wx.getStorageSync('tasks'),
-    //从返回list 页面时重新渲染
-    })
+        tasks:wx.getStorageSync('tasks'),
+        //从返回list 页面时重新渲染
+    });
+
   }
 
 

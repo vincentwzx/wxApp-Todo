@@ -1,17 +1,10 @@
-  <!--<view class="item">
-      <icon class="checkbox" id ="{{item.todoid}}" type="{{item.completed?'success_circle':'circle'}}" bindtap="toggleCheck"></icon>
-      <text class="{{item.completed?'completed':'name'}}">{{item.todoContent}}</text>
-      <icon class="remove" id ="{{item.todoid}}" type="clear" size="16" bindtap="deleteTodo"></icon>
-  </view>-->
-
-<view class="container">
-  <view class="shadowBox">
+<view class="card">
   <view class="header">
-    <icon class="checkbox" type="{{task.completed?'success_circle':'circle'}}" bindtap="toggleCheck"></icon>
-    <!--<view class="{{task.completed?'completed':'title'}}">{{task.taskContent}}</view>-->
-    <input value="{{task.taskContent}}" bindinput="changeTaskContent" />
+    <image class="checkbox" src="{{task.state?'../../images/done.png':'../../images/undone.png'}}" bindtap="toggleCheck"/>
+    <input class="title" value="{{task.title}}" bindinput="changeTitle"/>
     </view>
-    <textarea class="{{focusNote?'focusNote':'note'}}" placeholder="添加备忘" bindinput="getNote" value="{{task.note}}" bindfocus="focusOnNote" bindblur="focusOffNote"/>
-  </view>
+    <view bindtap="focusOnContent">
+       <textarea class="{{focusContent?'focusContent':'content'}}" placeholder="添加备忘" bindinput="getContent" bindblur="focusOffContent" value="{{task.content}}" maxlength="999" focus="{{focusContent}}" auto-height="true"/>
+    </view>
 </view>
 

@@ -1,24 +1,5 @@
 page {
   height: 100%;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  /*background-color: #EAF8FA;*/
-}
-
-.container {
-  padding: 20rpx 20rpx 165rpx 20rpx;
-  box-sizing: border-box;
-}
-
-.shadowBox{
-  border: 1rpx solid #e0e0e0;
-  border-radius: 10rpx;
-  box-shadow: 0 0 10rpx #ccc;
-  background-color: white;
-}
-
-.shadowBox .item {
-  display: flex;
-  align-items: center;
-  padding: 20rpx;
-  border-bottom: 1rpx solid #e0e0e0;
+  background: #F0F0F0;
 }
