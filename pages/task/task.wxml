@@ -1,10 +1,10 @@
 <view class="card">
   <view class="header">
-    <image class="checkbox" src="{{task.state?'../../images/done.png':'../../images/undone.png'}}" bindtap="toggleCheck"/>
-    <input class="title" value="{{task.title}}" bindinput="changeTitle"/>
+    <image class="checkbox" src="{{task.isDone?'../../images/done.png':'../../images/undone.png'}}" bindtap="toggleCheck" data-taskId="{{task._id}}"/>
+    <input class="title" value="{{task.title}}" bindinput="changeTitle" bindblur="focusOffTitle"/>
     </view>
     <view bindtap="focusOnContent">
-       <textarea class="{{focusContent?'focusContent':'content'}}" placeholder="添加备忘" bindinput="getContent" bindblur="focusOffContent" value="{{task.note}}" maxlength="999" focus="{{focusContent}}" auto-height="true"/>
+       <textarea class="{{focusContent?'focusContent':'content'}}" placeholder="添加备忘" bindblur="focusOffContent" value="{{task.note}}" maxlength="999" focus="{{focusContent}}" auto-height="true"/>
     </view>
 </view>
 

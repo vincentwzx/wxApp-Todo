@@ -5,7 +5,7 @@
                 <image class="plus-icon" src="../../images/plus.png"/>
                 <input class="new-task-title" value="{{input}}" placeholder="准备做什么？" confirm-hold="true" bindinput="getInput" bindconfirm="saveNewTask" confirm-type="next" focus="{{focus}}" bindblur="blurSet"/>
             </view>
-            <view class="list-item" wx:for= "{{tasks}}" bindtap="openTaskDetail" hover-class="list-item-hover" wx:if="{{!item.isDone}}" id ="{{item.id}}">
+            <view class="list-item" wx:for= "{{tasks}}" bindtap="openTaskDetail" hover-class="list-item-hover" wx:if="{{!item.isDone}}" id ="{{item._id}}">
                 <view class="checkbox-wrap">
                      <image class="checkbox" src="{{item.isDone?'../../images/done.png':'../../images/undone.png'}}" id ="{{item.id}}" catchtap="toggleCheck" data-taskId="{{item._id}}"/>
                 </view>
@@ -15,7 +15,7 @@
                 <view class="text" bindtap="toggleDone">{{showDoneTask?"隐藏已完成任务":"显示已完成任务"}}</view>
             </view>
             <view wx:if="{{showDoneTask}}">
-                <view class="list-item" wx:for= "{{tasks}}" bindtap="openTaskDetail" hover-class="list-item-hover" wx:if="{{item.isDone}}" id ="{{item.id}}">
+                <view class="list-item" wx:for= "{{tasks}}" bindtap="openTaskDetail" hover-class="list-item-hover" wx:if="{{item.isDone}}" id ="{{item._id}}">
                     <view class="checkbox-wrap">
                         <image class="checkbox" src="{{item.isDone?'../../images/done.png':'../../images/undone.png'}}" id ="{{item.id}}" catchtap="toggleCheck" data-taskId="{{item._id}}"/>
                     </view>

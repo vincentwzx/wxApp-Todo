@@ -109,12 +109,12 @@ var loadMyUserInfo = function () {
 				data: { session },
 				method: 'GET',
 				success: function (res) {
-					if (res.statusCode == 200) {
+					if (res.statusCode == 201) {
 						wx.hideLoading();
-						var myUserInfo = res.data.myUserInfo;
+						var tasks = res.data.tasks;
 						// if (myUserInfo.info.name) {
-							app.globalData.myUserInfo = myUserInfo;
-							resolve(myUserInfo);
+							app.globalData.tasks = tasks;
+							resolve(tasks);
 					}
 					else {
 						wx.showToast({
@@ -145,6 +145,7 @@ var getMyUserInfo = function () {
 	})
 }
 
+//新建资源 POST
 var submitTask = function(newTask){
         console.log('submitTask');
         return new Promise(function (resolve, reject) {
@@ -169,45 +170,66 @@ var submitTask = function(newTask){
     })
 }
 
-var getTasks = function(){
-    console.log('getTasks');
+// var getTasks = function(){
+//     console.log('getTasks');
+//     return new Promise(function (resolve, reject) {
+//         getSession().then(function (session) {
+//             wx.request({
+//                 url:url+'tasks/me',
+//                 data:{
+//                     session: session,
+//                 },
+//                 method:'GET',
+//                 success: function (res) {
+//                     if (res.statusCode == 201) {
+//                         wx.hideLoading();
+//                         resolve(res.data.tasks);
+//                     }
+//                     else {
+//                         wx.showToast({
+//                             title: '获取失败'
+//                         })
+//                     }
+//                 }
+//             })
+//         })
+//     })
+// }
+
+var getTaskDetail = function(id){
+    console.log('getTaskDetail');
     return new Promise(function (resolve, reject) {
-        getSession().then(function (session) {
-            wx.request({
-                url:url+'tasks/me',
-                data:{
-                    session: session,
-                },
-                method:'GET',
-                success: function (res) {
-                    if (res.statusCode == 201) {
-                        wx.hideLoading();
-                        resolve(res.data.tasks);
-                    }
-                    else {
-                        wx.showToast({
-                            title: '获取失败'
-                        })
-                    }
+        wx.request({
+            url:url+'tasks/'+id,
+            method:'GET',
+            success: function (res) {
+                if (res.statusCode == 201) {
+                    wx.hideLoading();
+                    resolve(res.data.task);
                 }
-            })
+                else {
+                    wx.showToast({
+                        title: '获取失败'
+                    })
+                }
+            }
         })
     })
 }
 
-var changeTask = function(id){
-    console.log('getTaskById');
+//修改资源PUT
+var changeTask = function(id,task){
     return new Promise(function (resolve, reject) {
         wx.request({
-            url:url+'tasks/toggle',
+            url:url+'tasks/'+id,
             data:{
-                _id: id,
+                task: task,
             },
-            method:'POST',
+            method:'PUT',
             success: function (res) {
                 if (res.statusCode == 201) {
                     wx.hideLoading();
-                    resolve(res.data.tasks);
+                    resolve(res.data.newTask);
                 }
                 else {
                     wx.showToast({
@@ -224,12 +246,11 @@ var deleteTask = function(id){
     return new Promise(function (resolve, reject) {
         getSession().then(function (session) {
             wx.request({
-                url:url+'tasks/delete',
+                url:url+'tasks/'+id,
                 data:{
                     session:session,
-                    _id: id,
                 },
-                method:'POST',
+                method:'DELETE',
                 success: function (res) {
                     if (res.statusCode == 201) {
                         wx.hideLoading();
@@ -253,7 +274,7 @@ module.exports = {
     getMyUserInfo,
     loadMyUserInfo,
     submitTask,
-    getTasks,
     changeTask,
-    deleteTask
+    deleteTask,
+    getTaskDetail
 }
