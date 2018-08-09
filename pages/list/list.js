@@ -1,4 +1,5 @@
 var app = getApp()
+var API = require('../../utils/API.js')
 
 Page({
     data: {
@@ -63,24 +64,30 @@ Page({
 
 
     saveNewTask(e){
+        var that = this
         let {input,sort} = this.data;
-        let id = sort;
-        let tasks = wx.getStorageSync('tasks')||[];
+        // let id = sort;
+        // let tasks = wx.getStorageSync('tasks')||[];
         const newTask = {
-            id,
+            // id,
             title:this.data.input,
-            state:false,
-            content:'',
+            isDone:false,
+            note:'',
              };
         if (input.trim().length === 0) return;
-        tasks.unshift(newTask);
+        // tasks.unshift(newTask);
+        newTask.note = input
+        API.submitTask(newTask).then( function(){
+            that.refresh()
+        })
         this.setData({
-         tasks,
+        //  tasks,
          focus:true,
          input:'',
-         sort:sort+1,
+        //  sort:sort+1,
          scrollHeight:0,
      });
+
 
     this.syncData();
 
@@ -99,17 +106,25 @@ Page({
  },
 
   deleteTask(e){
-          var id = e.currentTarget.id;
-          console.info(id);
-          let tasks = wx.getStorageSync('tasks');
-          console.info(tasks);
-          tasks = tasks.filter(x => Number(id) !== x.id);
-          console.log(tasks);
-          this.setData({
-              tasks,
-          });
-          this.checkDoneTask();
-          this.syncData();
+      var that = this
+        var id = e.currentTarget.dataset.taskid;
+        console.log(id);
+        API.deleteTask(id).then( function(tasks){
+            console.log("tasks",tasks)
+            that.setData({
+                tasks
+            })
+            // that.refresh()
+        })
+        //   let tasks = wx.getStorageSync('tasks');
+        //   console.info(tasks);
+        //   tasks = tasks.filter(x => Number(id) !== x.id);
+        //   console.log(tasks);
+        //   this.setData({
+        //       tasks,
+        //   });
+        //   this.checkDoneTask();
+        //   this.syncData();
      },
 
 toggleDone(){
@@ -120,28 +135,55 @@ toggleDone(){
     })
 },
 
-hasDone(x){
-        return x.state;
-    },
-
 checkDoneTask(){
-        var tasks = this.data.tasks;
-        var hasDoneTask = tasks.some(this.hasDone);
-        this.setData({
-            hasDoneTask,
+    var that = this
+    API.getTasks().then(function(tasks){
+        console.log(tasks)
+        var hasDoneTask = tasks.some( task => task.isDone);
+        console.log("hasdone",hasDoneTask)
+        if(hasDoneTask){
+            console.log('有完成的')
+            that.setData({
+                hasDoneTask,
+                showDoneTask:true
+            })
+        }
+    })
+        
+        
+        
+},
+
+refresh(){
+    var that = this
+    API.getMyUserInfo().then(function (myUserInfo) {
+        console.log(myUserInfo)
+    })
+    //查找某个用户的tasks
+    API.getTasks().then(function (tasks){
+        console.log("tasks",tasks)
+        that.tasks = tasks
+        that.setData({
+            tasks,
         })
+    })
 },
 
 
     toggleCheck(e){
+        var that = this
         console.log("toggle");
-        var id = e.currentTarget.id;
-        console.log(id);
-        let task = app.getTask(id);
-        task.state = !task.state;
-        this.setData({
-            tasks:app.changeTask(task)
-        });
+        // var id = e.currentTarget.taskid;
+        var {taskid} = e.currentTarget.dataset
+        console.log(taskid);
+        API.changeTask(taskid).then(function(){
+            that.refresh()
+        })
+        // let task = app.getTask(id);
+        // task.isDone = !task.isDone;
+        // this.setData({
+        //     tasks:app.changeTask(task)
+        // });
         this.checkDoneTask();
 
     },
@@ -176,7 +218,7 @@ checkDoneTask(){
 
   onShow: function() {
     this.checkDoneTask();
-   
+    this.refresh();
     this.setData({
         tasks:wx.getStorageSync('tasks'),
         //从返回list 页面时重新渲染

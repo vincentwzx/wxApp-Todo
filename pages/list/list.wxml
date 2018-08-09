@@ -5,22 +5,22 @@
                 <image class="plus-icon" src="../../images/plus.png"/>
                 <input class="new-task-title" value="{{input}}" placeholder="准备做什么？" confirm-hold="true" bindinput="getInput" bindconfirm="saveNewTask" confirm-type="next" focus="{{focus}}" bindblur="blurSet"/>
             </view>
-            <view class="list-item" wx:for= "{{tasks}}" bindtap="openTaskDetail" hover-class="list-item-hover" wx:if="{{!item.state}}" id ="{{item.id}}">
+            <view class="list-item" wx:for= "{{tasks}}" bindtap="openTaskDetail" hover-class="list-item-hover" wx:if="{{!item.isDone}}" id ="{{item.id}}">
                 <view class="checkbox-wrap">
-                     <image class="checkbox" src="{{item.state?'../../images/done.png':'../../images/undone.png'}}" id ="{{item.id}}" catchtap="toggleCheck"/>
+                     <image class="checkbox" src="{{item.isDone?'../../images/done.png':'../../images/undone.png'}}" id ="{{item.id}}" catchtap="toggleCheck" data-taskId="{{item._id}}"/>
                 </view>
-                <text id ="{{item.id}}" class="title {{item.state?'done':'undone'}}">{{item.title}}</text>
+                <text id ="{{item.id}}" class="title {{item.isDone?'done':'undone'}}">{{item.title}}</text>
             </view>
             <view class="toogle-done" wx:if="{{hasDoneTask}}">
                 <view class="text" bindtap="toggleDone">{{showDoneTask?"隐藏已完成任务":"显示已完成任务"}}</view>
             </view>
             <view wx:if="{{showDoneTask}}">
-                <view class="list-item" wx:for= "{{tasks}}" bindtap="openTaskDetail" hover-class="list-item-hover" wx:if="{{item.state}}" id ="{{item.id}}">
+                <view class="list-item" wx:for= "{{tasks}}" bindtap="openTaskDetail" hover-class="list-item-hover" wx:if="{{item.isDone}}" id ="{{item.id}}">
                     <view class="checkbox-wrap">
-                        <image class="checkbox" src="{{item.state?'../../images/done.png':'../../images/undone.png'}}" id ="{{item.id}}" catchtap="toggleCheck"/>
+                        <image class="checkbox" src="{{item.isDone?'../../images/done.png':'../../images/undone.png'}}" id ="{{item.id}}" catchtap="toggleCheck" data-taskId="{{item._id}}"/>
                     </view>
-                    <text id ="{{item.id}}" class="title {{item.state?'done':'undone'}}">{{item.title}}</text>
-                    <icon class="remove" id ="{{item.id}}" type="clear" size="20" catchtap="deleteTask"></icon>
+                    <text id ="{{item.id}}" class="title {{item.isDone?'true':'false'}}">{{item.title}}</text>
+                    <icon class="remove" id ="{{item.id}}" type="clear" size="20" catchtap="deleteTask" data-taskId="{{item._id}}"></icon>
                 </view>
             </view>
         </view>

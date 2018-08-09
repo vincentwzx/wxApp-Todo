@@ -4,7 +4,7 @@
     <input class="title" value="{{task.title}}" bindinput="changeTitle"/>
     </view>
     <view bindtap="focusOnContent">
-       <textarea class="{{focusContent?'focusContent':'content'}}" placeholder="添加备忘" bindinput="getContent" bindblur="focusOffContent" value="{{task.content}}" maxlength="999" focus="{{focusContent}}" auto-height="true"/>
+       <textarea class="{{focusContent?'focusContent':'content'}}" placeholder="添加备忘" bindinput="getContent" bindblur="focusOffContent" value="{{task.note}}" maxlength="999" focus="{{focusContent}}" auto-height="true"/>
     </view>
 </view>
 
