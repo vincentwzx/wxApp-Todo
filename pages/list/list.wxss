@@ -21,9 +21,10 @@
 }
 
 .newTask .plus-icon {
-  width: 10mm;
-  height: 10mm;
   margin-right: 20rpx;
+  padding:20rpx;
+  width:40rpx;
+  height:40rpx;
 }
 
 .newTask .new-task-title {
@@ -63,6 +64,7 @@
 
 .list-item .remove {
   cursor: pointer;
+  padding:20rpx;
 }
 
 .list-item-hover {

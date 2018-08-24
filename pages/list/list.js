@@ -1,11 +1,12 @@
 var app = getApp()
+var API = require('../../utils/API.js')
 
 Page({
     data: {
         input:'',
         focus:false,
-        sort:wx.getStorageSync('sort')||0,
-        tasks:wx.getStorageSync('tasks')||[],
+        sort:0,
+        tasks:[],
         scrollAtTop:true,
         toggleDoneText:"显示已完成任务",
         showDoneTask:false
@@ -63,53 +64,34 @@ Page({
 
 
     saveNewTask(e){
-        let {input,sort} = this.data;
-        let id = sort;
-        let tasks = wx.getStorageSync('tasks')||[];
+        var that = this
+        let {input} = this.data;
         const newTask = {
-            id,
             title:this.data.input,
-            state:false,
-            content:'',
-             };
+            isDone:false,
+            note:'',
+        };
         if (input.trim().length === 0) return;
-        tasks.unshift(newTask);
+        API.submitTask(newTask).then( function(){
+            that.refresh()
+        })
         this.setData({
-         tasks,
          focus:true,
          input:'',
-         sort:sort+1,
          scrollHeight:0,
      });
-
-    this.syncData();
-
- },
-
- syncData(){
-     wx.setStorage({
-         key: 'tasks',
-         data: this.data.tasks,
-       });
-
-     wx.setStorage({
-         key: 'sort',
-         data: this.data.sort,
-       })
  },
 
   deleteTask(e){
-          var id = e.currentTarget.id;
-          console.info(id);
-          let tasks = wx.getStorageSync('tasks');
-          console.info(tasks);
-          tasks = tasks.filter(x => Number(id) !== x.id);
-          console.log(tasks);
-          this.setData({
-              tasks,
-          });
-          this.checkDoneTask();
-          this.syncData();
+      var that = this
+        var id = e.currentTarget.dataset.taskid;
+        console.log(id);
+        API.deleteTask(id).then( function(tasks){
+            console.log("tasks",tasks)
+            that.setData({
+                tasks
+            })
+        })
      },
 
 toggleDone(){
@@ -120,69 +102,79 @@ toggleDone(){
     })
 },
 
-hasDone(x){
-        return x.state;
-    },
-
 checkDoneTask(){
-        var tasks = this.data.tasks;
-        var hasDoneTask = tasks.some(this.hasDone);
-        this.setData({
-            hasDoneTask,
+    var that = this
+    API.loadMyUserInfo().then(function(tasks){
+        console.log(tasks)
+        var hasDoneTask = tasks.some( task => task.isDone);
+        if(hasDoneTask){
+            that.setData({
+                tasks,
+                hasDoneTask,
+                showDoneTask:true
+            })
+        }
+    })
+},
+
+refresh(){
+    var that = this
+    API.loadMyUserInfo().then(function (tasks){
+        console.log("tasks",tasks)
+        that.tasks = tasks
+        that.setData({
+            tasks,
         })
+    })
 },
 
 
-    toggleCheck(e){
-        console.log("toggle");
-        var id = e.currentTarget.id;
-        console.log(id);
-        let task = app.getTask(id);
-        task.state = !task.state;
-        this.setData({
-            tasks:app.changeTask(task)
-        });
-        this.checkDoneTask();
-
-    },
-
-     openTaskDetail(e){
-         var id = e.currentTarget.id;
-         console.log(e.currentTarget.id)
-         wx.navigateTo({
-             url: '../task/task?id='+id
-         });
-        },
-
-    onShareAppMessage: function (x) {
-    return {
-      title: '简单好用的待办事项清单',
-      path: '/pages/list/list'
-    }
-  },
-
-  onLoad: function() {
-    var windowHeight = 603;
-    wx.getSystemInfo({
-      success: function(res) {
-          windowHeight = res.windowHeight;
-      }
+toggleCheck(e){
+    var that = this
+    console.log("toggle");
+    var {taskid} = e.currentTarget.dataset
+    API.getTaskDetail(taskid).then(function(task){
+        task.isDone = !task.isDone
+        API.changeTask(taskid,task).then(function(task){
+            that.refresh()
+        })
     })
-    this.setData({
-        windowHeight,
-    })
-  },
-  
-
-  onShow: function() {
     this.checkDoneTask();
-   
-    this.setData({
-        tasks:wx.getStorageSync('tasks'),
-        //从返回list 页面时重新渲染
-    });
+},
 
-  }
+openTaskDetail(e){
+    var id = e.currentTarget.id;
+    console.log(e.currentTarget.id)
+    wx.navigateTo({
+        url: '../task/task?id='+id
+    });
+},
+
+onShareAppMessage: function (x) {
+return {
+    title: '简单好用的待办事项清单',
+    path: '/pages/list/list'
+}
+},
+
+onLoad: function() {
+var windowHeight = 603;
+wx.getSystemInfo({
+    success: function(res) {
+        windowHeight = res.windowHeight;
+    }
+})
+this.setData({
+    windowHeight,
+})
+},
+
+
+onShow: function() {
+this.checkDoneTask();
+
+
+}
 
 
 })
